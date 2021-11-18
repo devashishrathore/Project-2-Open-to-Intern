@@ -10,12 +10,16 @@ const myBookSchema=new mongoose.Schema({
             ref:"myAuthor"
         },
         price:Number,
-         ratings:Number,
+        ratings:Number,
+        publisher:{
+            type:ObjectId,
+            ref:"myPublisher"
+        },
 
     
 }, {timestamps: true})
 
 
-module.exports=mongoose.model("myBook",myBookSchema)
+module.exports=mongoose.model("myBook1",myBookSchema)
 
 
