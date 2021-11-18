@@ -29,5 +29,14 @@ router.get('/findupdatedData',BookController.updatedData);
 router.get('/findrangeofbooks',BookController.findBooks);
 
 
+router.post('/createBook',BookController.myBooksCollection);
+router.post('/createAuthor', BookController.myAuthorsCollection);
+router.get('/myBooks', BookController.getMyBooks);
+
+
+
+
+
+
 
 module.exports = router;

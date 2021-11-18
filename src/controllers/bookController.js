@@ -37,5 +37,36 @@ const findBooks=async function(req,res){
     res.send({msg:authorNames})
 }
 
+
+
+const myAuthorsCollection=async function(req,res){
+    var data=req.body
+    let savedData=await authorsModel.create(data)
+    res.send({msg:savedData})
+}
+
+
+const myBooksCollection=async function(req,res){
+    var data=req.body;
+    let authorId=req.body.author
+    let authorRequest=await authorsModel.findById(authorId)
+    if(authorRequest){
+        let bookCreated= await BookModel.create(data);
+        res.send({data:bookCreated})
+    }else{
+        res.send("the author Id is not valid.")
+    }
+};
+
+const getMyBooks=async function(req,res){
+    let mybooks= await BookModel.find().populate('author');
+    res.send({msg:mybooks});
+}
+
+
+
 module.exports={authorsCollection,newBooks,specificBooks,updatedData,findBooks}
+module.exports.myAuthorsCollection=myAuthorsCollection
+module.exports.myBooksCollection=myBooksCollection
+module.exports.getMyBooks=getMyBooks
     
