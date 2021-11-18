@@ -1,5 +1,6 @@
  const mongoose=require('mongoose')
  const ObjectId= mongoose.Schema.Types.ObjectId
+ const PublisherId= mongoose.Schema.Types.ObjectId
 
 
 const myBookSchema=new mongoose.Schema({
@@ -12,7 +13,7 @@ const myBookSchema=new mongoose.Schema({
         price:Number,
         ratings:Number,
         publisher:{
-            type:ObjectId,
+            type:PublisherId,
             ref:"myPublisher"
         },
 
