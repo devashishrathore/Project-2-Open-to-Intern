@@ -1,38 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const UserModel= require("../models/userModel")
-const BookModel= require("../models/bookModel")
 
-const UserController= require("../controllers/userController")
-const BookController= require("../controllers/bookController")
+const AuthorModel=require("../models/authorsModel")
+const blogModel=require("../models/blogModel")
 
-
-router.get('/test-me', function (req, res) {
-    res.send('My first ever api!')
-});
-
-//router.post('/createBook',  UserController.createBook  );
-//router.get('/getAllBooks',  UserController.getListOfBooks );
-router.post('/createBooksCollection', UserController.booksCollection);
-router.get('/getAllBookColl', UserController.getBookDataColl);
-router.post('/getBooksInYear',UserController.booksInYear);
-router.post('/getParticularBooks',UserController.particularBooks);
-router.get('/getInrBooks',UserController.getXInrBooks);
-router.get('/getRandomBooks',UserController.randomBooks)
+const AuthorController= require("../controllers/authorcontroller")
+const BlogController= require("../controllers/blogController")
 
 
 
-router.post('/createAuthorsCollection',BookController.authorsCollection);
-router.post('/createNewBooks',BookController.newBooks);
-router.get('/findspecificBooks',BookController.specificBooks);
-router.get('/findupdatedData',BookController.updatedData);
-router.get('/findrangeofbooks',BookController.findBooks);
+router.post('/authors',AuthorController.authorsCollection);
+router.post('/blogs', BlogController.createBlog);
+router.get("/blogs",BlogController.getThisBlog)
+router.put('/blogs/:blogId', BlogController.updateBlog)
+router.delete("/blog/:blogId",BlogController.deleteBlog)
+router.delete("/blog",BlogController.deleteBlogQuery)
 
-/////////////////////////////////
-router.post('/createBook1',BookController.myBooksCollection);
-router.post('/createAuthor', BookController.myAuthorsCollection);
-router.get('/myBooks', BookController.getMyBooks);
-router.post('/createPublisher',BookController.myPublisher);
+
 
 
 
