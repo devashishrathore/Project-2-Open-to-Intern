@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const validator=require('validator');
 
 const authorSchema=new mongoose.Schema({
     fname:{
@@ -16,9 +17,17 @@ const authorSchema=new mongoose.Schema({
     },
     email:{
         type:String,
-        required:true,
-        unique:true,
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+        // trim: true,
+        // lowercase: true,
+        unique: true,
+        // required: 'Email address is required',
+        // validate: [validateEmail, 'Please fill a valid email address'],
+        // match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+        validate:{
+            validator:validator.isEmail,
+            message:'{VALUE} is not a valid email',
+            isAsync:false
+        }
     },
     password:{
         type:String,

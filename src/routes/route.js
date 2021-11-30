@@ -14,7 +14,7 @@ router.post('/blogs', BlogController.createBlog);
 router.get("/blogs",BlogController.getThisBlog)
 router.put('/blogs/:blogId', BlogController.updateBlog)
 router.delete("/blog/:blogId",BlogController.deleteBlog)
-router.delete("/blog",BlogController.deleteBlogQuery)
+router.delete("/blog",BlogController.specificDelete)
 
 
 
