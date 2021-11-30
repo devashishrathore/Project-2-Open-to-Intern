@@ -35,34 +35,34 @@ const createBlog = async function (req, res) {
 const getThisBlog = async function (req, res) {
 
     try {
-        
+
         let array = []
         let title = req.query.title
         let authorId = req.query.authorId
         let tags = req.query.tags
         let category = req.query.category
         let subcategory = req.query.subcategory
-        let blog = await blogModel.find({ $or: [{ title: title }, { authorId: authorId }, { category: category },{tags:tags} ,{ subcategory: subcategory } ] })
-                    
+        let blog = await blogModel.find({ $or: [{ title: title }, { authorId: authorId }, { category: category }, { tags: tags }, { subcategory: subcategory }] })
+
         if (blog) {
-            
+
             for (let element of blog) {
 
                 if (element.isDeleted === false && element.isPublished === true) {
 
                     array.push(element)
 
-                } 
-                
-            }
-            if(array.length>=1){
-                res.status(200).send({ status: true, data: array})
-
-            }else{
-                res.status(404).send({status: false, msg: "no such blog found"})
+                }
 
             }
-            
+            if (array.length >= 1) {
+                res.status(200).send({ status: true, data: array })
+
+            } else {
+                res.status(404).send({ status: false, msg: "no such blog found" })
+
+            }
+
         } else {
             res.status(404).send({
                 status: false,
@@ -82,20 +82,26 @@ const getThisBlog = async function (req, res) {
 const updateBlog = async function (req, res) {
     let blogId = req.params.blogId
     //let newTitle = req.body.title
-    let newBody = req.body
-    if (newBody.isPublished === true) {
-        newBody.publishedAt = String(new Date())
+    let blog = await blogModel.findById(blogId)
+    if (blog.authorId == req.query.authorId) {
+        let newBody = req.body
+        if (newBody.isPublished === true) {
+            newBody.publishedAt = String(new Date())
+        }
+
+        let blogDetails = await blogModel.findOneAndUpdate({ _id: blogId, isDeleted: false }, newBody, { new: true })
+        if (blogDetails) {
+            res.status(200).send({ status: true, message: blogDetails })
+        } else {
+            res.status(404).send({ status: false, msg: "Incorrect credentials !" })
+        }
+
+    } else {
+        res.status(404).send({ status: false, msg: "You are not a valid author to access this blog" })
     }
 
-    //let publishedAt = req.body.publishedAt.Date()
-    let blogDetails = await blogModel.findOneAndUpdate({ _id: blogId, isDeleted: false }, { title: req.body.title, body: req.body.body, $push: { tags: { $each: req.body.tags } }, $push: { subcategory: { $each: req.body.subcategory } } }, { new: true })
-    if (blogDetails) {
-        res.status(200).send({ status: true, message: blogDetails })
-    } else {
-        res.status(404).send({ status: false, msg: "Incorrect credentials !" })
-    }
 };
-//new Date().tolocalString
+
 
 
 
@@ -104,18 +110,22 @@ const updateBlog = async function (req, res) {
 let deleteBlog = async function (req, res) {
     try {
         let Id = req.params.blogId;
-        let blog = await blogModel.findOne({ _id: Id, isDeleted: false })
-        if (blog) {
-            let deletedTime = String(new Date());
-            await blogModel.findOneAndUpdate({ _id: Id }, { isDeleted: true, deletedAt: deletedTime })
-            res.status(200).send({ msg: "your blog is Deleted Successfully" })
-        } else {
-            res.status(404).send({
-                status: false,
-                msg: "blog is already Deleted or blockId does not exist"
-            })
+        let blogValue = await blogModel.findById(Id)
+        if (blogValue.authorId == req.query.authorId) {
+            let blog = await blogModel.findOne({ _id: Id, isDeleted: false })
+            if (blog) {
+                let deletedTime = String(new Date());
+                await blogModel.findOneAndUpdate({ _id: Id }, { isDeleted: true, deletedAt: deletedTime })
+                res.status(200).send({ msg: "your blog is Deleted Successfully" })
+            } else {
+                res.status(404).send({
+                    status: false,
+                    msg: "blog is already Deleted or blockId does not exist"
+                })
+            }
+        }else {
+        res.status(404).send({ status: false, msg: "You are not a valid author to delete this blog" })
         }
-
     }
     catch (err) {
         console.log(err)
