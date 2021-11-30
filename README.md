@@ -63,3 +63,7 @@ let deleteBlogQuery=async function(req,res){
 
 $push: { tags: { $each: req.body.tags } }, $push: { subcategory: { $each: req.body.subcategory } }
 
+
+ if(req.query.authorId==authorId){   
+                            //loggedin User(query authorid)
+      
