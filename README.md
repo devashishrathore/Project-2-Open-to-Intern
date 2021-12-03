@@ -67,3 +67,71 @@ $push: { tags: { $each: req.body.tags } }, $push: { subcategory: { $each: req.bo
  if(req.query.authorId==authorId){   
                             //loggedin User(query authorid)
       
+
+
+   const getThisBlog = async function (req, res) {
+
+    try {
+
+        let array = []
+        let title = req.query.title
+        let authorId = req.query.authorId
+        let tags = req.query.tags
+        let category = req.query.category
+        let subcategory = req.query.subcategory
+        let blog = await blogModel.find({ $or: [{ title: title }, { authorId: authorId }, { category: category }, { tags: tags }, { subcategory: subcategory }] })
+
+        if (blog) {
+
+            for (let element of blog) {
+
+                if (element.isDeleted === false && element.isPublished === true) {
+
+                    array.push(element)
+
+                }
+
+            }
+            if (array.length >= 1) {
+                res.status(200).send({ status: true, data: array })
+
+            } else {
+                res.status(404).send({ status: false, msg: "no such blog found" })
+
+            }
+
+        } else {
+            res.status(404).send({
+                status: false,
+                msg: "no such blog found"
+            })
+        }
+
+    }
+    catch (err) {
+        console.log(err)
+        res.send(err)
+    }
+
+}   req.query={tags:book}
+ req.query.authorId=req.validToken._id
+  req.query[isDeleted]=false
+
+data=await blogModel.find({tags:book,authorId=req.validToken._id,[isDeleted]=false})
+
+
+
+
+
+
+
+       }else{
+           req.query["authorId"]=req.validToken._id          
+           data=await blogModel.find(req.query)
+           if(data){
+               res.status(200).send({status:true,data:data})
+           }else{
+               res.status(404).send({status:false,msg:"no such blog found"})
+           }
+           }
+        }

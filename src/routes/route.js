@@ -10,11 +10,17 @@ const commonMw=require("../middleware/commonmiddleware")
 
 
 router.post('/authors',AuthorController.authorsCollection);
-router.post('/blogs',commonMw.validator, BlogController.createBlog);
-router.get("/blogs",commonMw.validator,BlogController.getThisBlog) 
-router.put('/blogs/:blogId',commonMw.validator,BlogController.updateBlog)
-router.delete("/blog/:blogId",commonMw.validator,BlogController.deleteBlog)
-router.delete("/blog",commonMw.validator,BlogController.specificDelete)
+
+//create blog
+router.post('/blogs',commonMw.validator, BlogController.createBlog);//done
+//get blogs with query and without query
+router.get("/blogs",commonMw.validator,BlogController.getThisBlog) //done
+
+router.put('/blogs/:blogId',commonMw.validator,BlogController.updateDetails)//done
+
+router.delete("/blog/:blogId",commonMw.validator,BlogController.deleteBlog)//done
+
+router.delete("/blog",commonMw.validator,BlogController.specificDelete)//done
 
 ////////////////
 
