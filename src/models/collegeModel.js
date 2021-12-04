@@ -44,6 +44,8 @@ const collegeSchema = new mongoose.Schema({
         required: true
     },
     logoLink: {
+        type:String,
+        required: false
         
     }, 
     isDeleted: {
