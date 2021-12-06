@@ -1,40 +1,26 @@
-
-const collegeModel = require("../models/collegeModel")
-const jwt = require('jsonwebtoken')
+const collegeModel = require('../models/collegeModel');
 
 
-//Q1
+
+
+const isValidRequestBody = function (requestBody) {
+    return Object.keys(requestBody).length > 0
+}
+
 const createCollege = async function (req, res) {
-    try {
-        
-        if(!(Object.values(req.body).length===0)){
-            
-            let savedCollege = await collegeModel.create(req.body)
-            res.status(200).send({ status: true, data: savedCollege })
-        }else{
-            console.log(body)
-            res.status(400).send({ status: false, msg: "body is empty" })
+    try{
+        if (!isValidRequestBody(req.body)) {
+            return res.status(400).send({ status: false, message: 'request body is emptey' })
         }
-    } catch (err) {
-        console.log(err)
-        
-        res.status(500).send({ status: false, msg: err.message })
-    }
+        let createdCollege= await collegeModel.create(req.body)
+        res.status(201).send({ status:true, msg:createdCollege})
+} 
+catch(err){
+    res.status(500).send({status:false,data:err});
+    console.log(err)
+}
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-module.exports.createCollege = createCollege
-
-
+module.exports = { createCollege }

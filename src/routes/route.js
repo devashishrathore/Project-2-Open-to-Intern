@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
-let collegeController=require("../controllers/collegeController")
-let internController=require("../controllers/internController")
+
+const collegeController = require('../controllers/collegeController');
+const internsController = require('../controllers/internsController');
 
 
 //1)for saving college details
-router.post("/functionup/colleges",collegeController.createCollege)
+router.post('/functionUp/Colleges', collegeController.createCollege);
 
 //2) for saving intern setails
-router.post("/functionup/interns",internController.createIntern)
+router.post('/functionUp/interns', internsController.createInterns);
+
 
 //3)return list of all interns applied for that college
-router.get("/functionup/collegeDetails",internController.giveAllInterns)
-
+router.get("/functionup/collegeDetails",internsController.giveAllInterns)
 
 
 
