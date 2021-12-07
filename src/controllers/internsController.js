@@ -56,7 +56,7 @@ const createInterns = async function (req, res) {
             return
         }
         if(!isValid(collegeName)) {
-            res.status(400).send({status: false, message: `Mobile is required`})
+            res.status(400).send({status: false, message: `CollegeName is required`})
             return
         }
         
@@ -64,12 +64,12 @@ const createInterns = async function (req, res) {
         let { _id } = collegeDetail;
 
         if(!isValid(_id)) {
-            res.status(400).send({status: false, message: 'Author id is required'})
+            res.status(400).send({status: false, message: 'College id is required'})
             return
         }
 
         if(!isValidObjectId(_id)) {
-            res.status(400).send({status: false, message: `${authorId} is not a valid author id`})
+            res.status(400).send({status: false, message: `${_id} is not a valid College Id`})
             return
         }
         

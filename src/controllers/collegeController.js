@@ -35,13 +35,11 @@ const createCollege = async function (req, res) {
             return
         }
 
-        if(!(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/.test(logoLink))) {
+        if(!(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(logoLink) &&logoLink.includes(".com")==true)) {
             res.status(400).send({status: false, message: `logoLink is not a valid URL`})
             return
         }
         
-
-
         let createdCollege= await collegeModel.create(req.body)
         res.status(201).send({ status:true, msg:createdCollege})
 } 
