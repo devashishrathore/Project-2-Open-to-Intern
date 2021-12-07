@@ -14,17 +14,4 @@ use MOdel to interact with DB
 break your code into correct folder structure 
 
 
- validate:{
-            validator:validator.isEmail,
-            message:'{VALUE} is not a valid email',
-            isAsync:false
-        }
-
-validate: { 
-  validator: value => validator.isURL(value, { protocols: ['http','https','ftp'], require_tld: true, require_protocol: true }),
-  message: 'Must be a Valid URL' 
-}
-
-
-mongodb+srv://users-open-to-all:hiPassword123@cluster0.uh35t.mongodb.net/group7database?retryWrites=true&w=majority
-mongodb+srv://users-open-to-all:hiPassword123@cluster0.uh35t.mongodb.net/jagdishshinde?retryWrites=true&w=majority
+(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/.test(logoLink))
