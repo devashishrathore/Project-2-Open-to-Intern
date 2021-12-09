@@ -10,6 +10,7 @@ install mongoose : npm i mongoose (from parent folder)
 use MOdel to interact with DB
 
 <link src="https://github.com/sabihak89/radium/blob/project/open-to-intern/README.md"> project2_question</link>
+[a link](https://github.com/sabihak89/radium/blob/project/open-to-intern/README.md)
 
 
 
