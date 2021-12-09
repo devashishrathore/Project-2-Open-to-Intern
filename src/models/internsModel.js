@@ -4,7 +4,8 @@ const objectId = mongoose.Schema.Types.ObjectId
 const internSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'name is required']
+        required: [true, 'name is required'],
+        trim:true
     },
     email: {
         type:String,
@@ -13,7 +14,8 @@ const internSchema = new mongoose.Schema({
             validator:validator.isEmail,
             message:'{VALUE} is not a valid email',
             isAsync:false
-        }
+        },
+        trim:true
         },
     mobile: {
         type: String,
@@ -26,7 +28,8 @@ const internSchema = new mongoose.Schema({
         required: [true, 'Please enter your Mobile number'],
         unique: true,
         minLength: [9, 'number is too small'],
-        maxLength: 10
+        maxLength: 10,
+        trim:true
     },
     collegeId: {
         type: objectId,

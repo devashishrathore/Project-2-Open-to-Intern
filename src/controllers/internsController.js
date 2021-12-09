@@ -55,12 +55,20 @@ const createInterns = async function (req, res) {
             res.status(400).send({status: false, message: `given mobile:${mobile} is not of valid 10 Digit number`})
             return
         }
+        const isMobileAlreadyUsed = await internModel.findOne({mobile});
+        if(isMobileAlreadyUsed) {
+            res.status(400).send({status: false, message: `${mobile} this Mobile is already registered`})
+            return
+        }
+
+
         if(!isValid(collegeName)) {
             res.status(400).send({status: false, message: `CollegeName is required`})
             return
         }
         
-        let collegeDetail = await collegeModel.findOne({ name:collegeName });
+        let collegeDetail = await collegeModel.findOne({ name:collegeName ,isDeleted:false});
+        if(!collegeDetail) return res.status(400).send({status:false,msg:"No such college found"})
         let { _id } = collegeDetail;
 
         if(!isValid(_id)) {
@@ -75,7 +83,7 @@ const createInterns = async function (req, res) {
         
         req.body["collegeId"] = _id
         let savedIntern = await internModel.create(req.body)
-        res.status(200).send({ status: true, data: savedIntern })
+        res.status(201).send({ status: true, data: savedIntern })
     }
     catch (err) {
         console.log(err)
@@ -98,18 +106,19 @@ const giveAllInterns = async function (req, res) {
             res.status(400).send({ status: false, message: 'collegeName is not proper' })
             return
         }
-        let collegeDetail = await collegeModel.findOne({ name: req.query.collegeName })
+        let collegeDetail = await collegeModel.findOne({ name: req.query.collegeName ,isDeleted:false })
         if (!collegeDetail){
-            res.send({ status: false, msg: "No college found matching with the given collegeName" })
+            res.status(400).send({ status: false, msg: "No college found " })
             return
         }
 
         let { _id,name,fullName,logoLink } = collegeDetail
-        let allInterns = await internModel.find({ collegeId: _id, isDeleted: false })
-
+        let allInterns = await internModel.find({ collegeId: _id, isDeleted: false }).select({name:1,email:1,mobile:1})
+        if(allInterns.length===0) return res.status(400).send({status:false,msg:"no intern applied for this college"})
         
         let College={name,fullName,logoLink,intrest:allInterns}
         let ans={data:College};
+        
         if (ans) {
             res.status(200).send(ans)
         } else {
@@ -118,7 +127,7 @@ const giveAllInterns = async function (req, res) {
     }
     catch (err) {
         console.log(err)
-        res.status(500).send({ status: false, msg: err })
+        res.status(500).send({ status: false, msg: err.message })
     }
 
 }
