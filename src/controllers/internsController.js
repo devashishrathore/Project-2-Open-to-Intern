@@ -20,7 +20,9 @@ const isValidObjectId = function(objectId) {
 //---------------------------------------------------------------------------------------------------------------
 
 const createInterns = async function (req, res) {
+   
     try {
+        res.setHeader('Access-Control-Allow-Origin','*')
         if (!isValidRequestBody(req.body)) {
             return res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide collage details' })
         }
@@ -102,6 +104,7 @@ module.exports = { createInterns }
 
 const giveAllInterns = async function (req, res) {
     try {
+        res.setHeader('Access-Control-Allow-Origin','*')
         if (!isValid(req.query.collegeName)) {
             res.status(400).send({ status: false, message: 'collegeName is not proper' })
             return
@@ -132,6 +135,10 @@ const giveAllInterns = async function (req, res) {
 
 }
 module.exports.giveAllInterns = giveAllInterns
+
+
+
+
 
 
 

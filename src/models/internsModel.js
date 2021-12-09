@@ -21,14 +21,14 @@ const internSchema = new mongoose.Schema({
         type: String,
         validate: {
             validator: function (v) {
-                return /\d{3}\d{3}\d{4}/.test(v);
+                return /\d{10}/.test(v);
             },
             message: props => `${props.value} is not a valid phone number!`
         },
         required: [true, 'Please enter your Mobile number'],
         unique: true,
         minLength: [9, 'number is too small'],
-        maxLength: 10,
+        maxLength: [10,"not good"],
         trim:true
     },
     collegeId: {

@@ -24,4 +24,6 @@ router.get("/functionup/collegeDetails",internsController.giveAllInterns)
 
 
 
+
+
 module.exports = router;
