@@ -5,7 +5,7 @@ const collegeController = require('../controllers/collegeController');
 const internsController = require('../controllers/internsController');
 
 
-//1)for saving college details
+//1)for saving college details api
 router.post('/functionUp/Colleges', collegeController.createCollege);
 
 //2) for saving intern setails
