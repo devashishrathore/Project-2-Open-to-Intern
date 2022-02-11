@@ -4,26 +4,11 @@ const router = express.Router();
 const collegeController = require('../controllers/collegeController');
 const internsController = require('../controllers/internsController');
 
-
-//1)for saving college details api
+//Collage creation
 router.post('/functionUp/Colleges', collegeController.createCollege);
-
-//2) for saving intern setails
+//Register for internship
 router.post('/functionUp/interns', internsController.createInterns);
-
-
-//3)return list of all interns applied for that college
-router.get("/functionup/collegeDetails",internsController.giveAllInterns)
-
-
-
-
-
-
-
-
-
-
-
+//List students applied internship
+router.get("/functionup/collegeDetails", internsController.giveAllInterns)
 
 module.exports = router;

@@ -1,22 +1,21 @@
 const mongoose = require('mongoose');
 
-
 const collageSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'name is required'],
         unique: true,
-        trim:true
+        trim: true
     },
     fullName: {
         type: String,
         required: [true, 'fullname is required'],
-        trim:true
+        trim: true
     },
     logoLink: {
         type: String,
         required: [true, 'logolink is required'],
-        trim:true
+        trim: true
     },
     isDeleted: {
         type: Boolean,
@@ -24,7 +23,5 @@ const collageSchema = new mongoose.Schema({
     }
 },
     { timestamps: true })
-
-    
 
 module.exports = mongoose.model('CollegeDb', collageSchema)

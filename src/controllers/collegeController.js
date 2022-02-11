@@ -11,47 +11,47 @@ const isValid = function (value) {
     return true;
 }
 
-
 //----------------------------------------------------------------------------------------------------------
 const createCollege = async function (req, res) {
-    try{
+    try {
         if (!isValidRequestBody(req.body)) {
             return res.status(400).send({ status: false, message: 'Invalid request parameters. Please provide collage details' })
         }
-        let {name,fullName,logoLink}=req.body
-        
-        if(!isValid(name)) {
-            res.status(400).send({status: false, message: `name is required`})
+        let { name, fullName, logoLink } = req.body
+
+        if (!isValid(name)) {
+            res.status(400).send({ status: false, message: `name is required` })
             return
         }
 
-        let Collegedata=await collegeModel.findOne({name})
-        if (Collegedata) return res.status(400).send({status:false,msg:`${name} already exist`})
+        let Collegedata = await collegeModel.findOne({ name, isDeleted: false })
+        if (Collegedata) return res.status(400).send({ status: false, msg: `${name} already exist` })
 
-        if(!isValid(fullName)) {
-            res.status(400).send({status: false, message: `fullName is required`})
+        if (!isValid(fullName)) {
+            res.status(400).send({ status: false, message: `fullName is required` })
+            return
+        }
+        let Collegefullname = await collegeModel.findOne({ fullName, isDeleted: false })
+        if (Collegefullname) return res.status(400).send({ status: false, msg: `${fullName} already exist` })
+
+        if (!isValid(logoLink)) {
+            res.status(400).send({ status: false, message: `logoLink is required` })
+            return
+        }
+        let CollegeLogo = await collegeModel.findOne({ logoLink, isDeleted: false })
+        if (CollegeLogo) return res.status(400).send({ status: false, msg: `${logoLink} already exist` })
+
+        if (!(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(logoLink))) {
+            res.status(400).send({ status: false, message: `logoLink is not a valid URL` })
             return
         }
 
-        if(!isValid(logoLink)) {
-            res.status(400).send({status: false, message: `logoLink is required`})
-            return
-        }
-
-        if(!(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(logoLink))) {
-            res.status(400).send({status: false, message: `logoLink is not a valid URL`})
-            return
-        }
-        
-        let createdCollege= await collegeModel.create(req.body)
-        res.status(201).send({ status:true, msg:createdCollege})
-} 
-catch(err){
-    res.status(500).send({status:false,data:err});
-    console.log(err)
+        let createdCollege = await collegeModel.create(req.body)
+        res.status(201).send({ status: true, msg: "Collage created Successfully", data: createdCollege })
+    }
+    catch (err) {
+        res.status(500).send({ status: false, data: err });
+    }
 }
-}
-
-
 
 module.exports = { createCollege }
